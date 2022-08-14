@@ -15,6 +15,7 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.remote.DesiredCapabilities;
 
 //https://www.browserstack.com/docs/automate/selenium/getting-started/java#introduction
 //https://www.browserstack.com/guide/selenium-webdriver-tutorial
@@ -73,6 +74,7 @@ public class Main {
 		if (browser.equalsIgnoreCase("firefox")) {
 			// https://www.guru99.com/gecko-marionette-driver-selenium.html
 			FirefoxOptions options = new FirefoxOptions();
+			options.setCapability("marionette", true);
 			driver = new FirefoxDriver(options);
 		}
 //		driver.manage().window().setSize(new Dimension(1024,768));
