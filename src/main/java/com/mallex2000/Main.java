@@ -39,7 +39,7 @@ public class Main {
 		System.out.println("Parameter");
 		System.out.println("1. driver dir " + driverDir);
 		System.out.println("2. surfbar " + surfbar);
-		System.out.println("3. browser " + surfbar);
+		System.out.println("3. browser " + browser);
 		System.out.println("4. sleepTime " + sleepTime);
 		System.setProperty("webdriver.chrome.driver", driverDir + "\\chromedriver.exe");
 		System.setProperty("webdriver.edge.driver", driverDir + "\\msedgedriver.exe");
