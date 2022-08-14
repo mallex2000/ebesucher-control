@@ -57,6 +57,7 @@ public class Main {
 	private static void startEbesucher(String surfbar, String browser, int sleepTime) throws InterruptedException {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("profile.default_content_setting_values.notifications", 2);
+		System.out.println("open " + browser);
 		WebDriver driver = null;
 		if (browser.equalsIgnoreCase("chrome")) {
 			ChromeOptions options = new ChromeOptions();
@@ -75,7 +76,9 @@ public class Main {
 			driver = new FirefoxDriver(options);
 		}
 //		driver.manage().window().setSize(new Dimension(1024,768));
+		System.out.println("maximize " + browser);
 		driver.manage().window().maximize();
+		System.out.println("implicitlyWait");
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(sleepTime * 2));
 		System.out.println("sleep " + (sleepTime));
 		Thread.sleep(sleepTime * 1000);
