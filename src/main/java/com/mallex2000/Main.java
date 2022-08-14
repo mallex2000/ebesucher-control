@@ -23,11 +23,11 @@ import org.openqa.selenium.firefox.FirefoxOptions;
 public class Main {
 
 	public static void main(String[] args) throws InterruptedException {
-		System.out.print(args.length + " main start parameter");
-		System.out.print("1. driver dir (\"C:\\\\Users\\\\malle\\\\github\\\\driver");
-		System.out.print("2. surfbar (mallex2000)");
-		System.out.print("3. browser (firefox, edge, chrome)");
-		System.out.print("4. sleepTime (20)");
+		System.out.println(args.length + " main start parameter");
+		System.out.println("1. driver dir (\"C:\\\\Users\\\\malle\\\\github\\\\driver");
+		System.out.println("2. surfbar (mallex2000)");
+		System.out.println("3. browser (firefox, edge, chrome)");
+		System.out.println("4. sleepTime (20)");
 
 		if (args.length != 4) {
 			throw new RuntimeException(args.length + " main parameter sind falsch.");
@@ -36,21 +36,21 @@ public class Main {
 		String surfbar = args[1];
 		String browser = args[2];
 		int sleepTime = Integer.valueOf(args[3]);
-		System.out.print("Parameter");
-		System.out.print("1. driver dir " + driverDir);
-		System.out.print("2. surfbar " + surfbar);
-		System.out.print("3. browser " + surfbar);
-		System.out.print("4. sleepTime " + sleepTime);
+		System.out.println("Parameter");
+		System.out.println("1. driver dir " + driverDir);
+		System.out.println("2. surfbar " + surfbar);
+		System.out.println("3. browser " + surfbar);
+		System.out.println("4. sleepTime " + sleepTime);
 		System.setProperty("webdriver.chrome.driver", driverDir + "\\chromedriver.exe");
 		System.setProperty("webdriver.edge.driver", driverDir + "\\msedgedriver.exe");
 		System.setProperty("webdriver.gecko.driver", driverDir + "\\geckodriver.exe");
 		killAllChromeProcesses(browser);
 		startEbesucher(surfbar, browser, sleepTime);
-		System.out.print("done");
+		System.out.println("done");
 	}
 
 	private static void killAllChromeProcesses(String browser) {
-		startCommand("tasklist.exe");
+//		startCommand("tasklist.exe");
 		startCommand("taskkill /F /IM " + browser + ".exe");
 	}
 
