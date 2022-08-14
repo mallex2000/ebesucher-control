@@ -13,6 +13,8 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 
 //https://www.browserstack.com/docs/automate/selenium/getting-started/java#introduction
 //https://www.browserstack.com/guide/selenium-webdriver-tutorial
@@ -20,33 +22,39 @@ import org.openqa.selenium.edge.EdgeOptions;
 //https://woowee.de/surfbar/
 public class Main {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
 		System.out.print(args.length + " main start parameter");
-		System.out.print(
-				"1. driver dir (\"C:\\\\Users\\\\malle\\\\github\\\\driver\\\\chromedriver.exe\"");
+		System.out.print("1. driver dir (\"C:\\\\Users\\\\malle\\\\github\\\\driver");
 		System.out.print("2. surfbar (mallex2000)");
-		if (args.length != 2) {
+		System.out.print("3. browser (firefox, edge, chrome)");
+		System.out.print("4. sleepTime (20)");
+
+		if (args.length != 4) {
 			throw new RuntimeException(args.length + " main parameter sind falsch.");
 		}
-		String driver = args[0];
+		String driverDir = args[0];
 		String surfbar = args[1];
+		String browser = args[2];
+		int sleepTime = Integer.valueOf(args[3]);
 		System.out.print("Parameter");
-		System.out.print("1. driver " + driver);
+		System.out.print("1. driver dir " + driverDir);
 		System.out.print("2. surfbar " + surfbar);
-		System.setProperty("webdriver.chrome.driver", driver);
-		System.setProperty("webdriver.edge.driver", "C:\\Users\\malle\\github\\chromiumdriver\\driver\\msedgedriver.exe");
-		
-		killAllChromeProcesses();
-		startEbesucher(surfbar, "edge");
+		System.out.print("3. browser " + surfbar);
+		System.out.print("4. sleepTime " + sleepTime);
+		System.setProperty("webdriver.chrome.driver", driverDir + "\\chromedriver.exe");
+		System.setProperty("webdriver.edge.driver", driverDir + "\\msedgedriver.exe");
+		System.setProperty("webdriver.gecko.driver", driverDir + "\\geckodriver.exe");
+		killAllChromeProcesses(browser);
+		startEbesucher(surfbar, browser, sleepTime);
 		System.out.print("done");
 	}
 
-	private static void killAllChromeProcesses() {
+	private static void killAllChromeProcesses(String browser) {
 		startCommand("tasklist.exe");
-		startCommand("taskkill /F /IM chrome.exe");
+		startCommand("taskkill /F /IM " + browser + ".exe");
 	}
 
-	private static void startEbesucher(String surfbar, String browser) {
+	private static void startEbesucher(String surfbar, String browser, int sleepTime) throws InterruptedException {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("profile.default_content_setting_values.notifications", 2);
 		WebDriver driver = null;
@@ -61,17 +69,26 @@ public class Main {
 			options.setExperimentalOption("prefs", map);
 			driver = new EdgeDriver(options);
 		}
-		
-//		firefox: 		https://www.guru99.com/gecko-marionette-driver-selenium.html
-		
+		if (browser.equalsIgnoreCase("firefox")) {
+			// https://www.guru99.com/gecko-marionette-driver-selenium.html
+			FirefoxOptions options = new FirefoxOptions();
+			driver = new FirefoxDriver(options);
+		}
 //		driver.manage().window().setSize(new Dimension(1024,768));
 		driver.manage().window().maximize();
-		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
-		driver.get("https://www.ebesucher.de/surfbar/" + surfbar);
-		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(sleepTime * 2));
+		System.out.println("sleep " + (sleepTime));
+		Thread.sleep(sleepTime * 1000);
+		String url = "https://www.ebesucher.de/surfbar/" + surfbar;
+		System.out.println("call " + url);
+		driver.get(url);
+		System.out.println("sleep " + (sleepTime));
+		Thread.sleep(sleepTime * 1000);
+		System.out.println("find link surf_now_button");
 		WebElement element = driver.findElement(By.id("surf_now_button"));
+		System.out.println("click surf_now_button");
 		element.click();
+		System.out.println("end");
 	}
 
 //	public void login() {

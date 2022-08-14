@@ -1,3 +1,4 @@
 target/*
 !target/ebesucher-control-0.0.1-jar-with-dependencies.jar
 app.log
+/target/
